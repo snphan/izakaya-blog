@@ -1,12 +1,5 @@
-# izakaya-blog
-
-A Blog built with React.
-
-CI/CD will be set up through github actions.
-
-Try out TDD
-
-Express backend with GraphQL
+# Iza Megu - A Blog for Japanese Food and Drink Enthusiasts
+![Mao's Blog (1)](https://user-images.githubusercontent.com/59156097/198899602-74fdf828-ee16-45f7-a896-31749190c201.png)
 
 # Quickstart
 
@@ -15,6 +8,6 @@ Express backend with GraphQL
 
         docker-compose up -d --build
 
-1. api will be at http://localhost:3000 and blog will be at http://localhost:8000
+1. api will be at http://localhost:3001 and blog will be at http://localhost:8001
 
-Have fun developing!
+
