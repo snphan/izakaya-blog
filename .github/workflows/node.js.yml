@@ -28,6 +28,10 @@ jobs:
         cache: 'npm'
         cache-dependency-path: api/package-lock.json
     
+    - name: Clean and Install
+      working-directory: ./api
+      run: npm ci
+    
     - name: Run Api test suite
       working-directory: ./api
       run: npm test
