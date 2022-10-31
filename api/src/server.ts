@@ -9,3 +9,4 @@ validateEnv();
 const app = new App([authResolver, userResolver]);
 
 app.listen();
+
