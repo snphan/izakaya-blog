@@ -14,11 +14,14 @@ import { dbConnection } from '@databases';
 import { authMiddleware, authChecker } from '@middlewares/auth.middleware';
 import errorMiddleware from '@middlewares/error.middleware';
 import { logger, responseLogger, errorLogger } from '@utils/logger';
+import { Server } from 'http';
 
 class App {
   public app: express.Application;
   public env: string;
   public port: string | number;
+  public apolloServer: ApolloServer;
+  public server: Server;
 
   constructor(resolvers) {
     this.app = express();
@@ -32,21 +35,27 @@ class App {
   }
 
   public async listen() {
-    this.app.listen(this.port, () => {
-      logger.info(`=================================`);
-      logger.info(`======= ENV: ${this.env} =======`);
-      logger.info(`🚀 App listening on the port ${this.port}`);
-      logger.info(`🎮 http://localhost:${this.port}/graphql`);
-      logger.info(`=================================`);
+    this.server = this.app.listen(this.port, () => {
+      if (this.env !== "test") {
+        logger.info(`=================================`);
+        logger.info(`======= ENV: ${this.env} =======`);
+        logger.info(`🚀 App listening on the port ${this.port}`);
+        logger.info(`🎮 http://localhost:${this.port}/graphql`);
+        logger.info(`=================================`);
+      }
     });
   }
 
   public getServer() {
+    return this.server;
+  }
+
+  public getApp() {
     return this.app;
   }
 
-  private connectToDatabase() {
-    createConnection(dbConnection);
+  private async connectToDatabase() {
+    await createConnection(dbConnection);
   }
 
   private initializeMiddlewares() {
@@ -68,7 +77,7 @@ class App {
       authChecker: authChecker,
     });
 
-    const apolloServer = new ApolloServer({
+    this.apolloServer = new ApolloServer({
       schema: schema,
       plugins: [
         this.env === 'production'
@@ -93,11 +102,11 @@ class App {
 
         return error;
       },
-      
+
     });
 
-    await apolloServer.start();
-    apolloServer.applyMiddleware({ app: this.app, cors: ORIGIN, path: '/graphql' });
+    await this.apolloServer.start();
+    this.apolloServer.applyMiddleware({ app: this.app, cors: ORIGIN, path: '/graphql' });
   }
 
   private initializeErrorHandling() {
