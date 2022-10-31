@@ -34,4 +34,17 @@ jobs:
     
     - name: Run Api test suite
       working-directory: ./api
+      env:
+        PORT: 3003
+        DB_TYPE: sqlite
+        DB_HOST: localhost 
+        DB_PORT:  5432
+        DB_USER: root
+        DB_PASSWORD: password
+        DB_DATABASE: test.sqlite3
+        SECRET_KEY: secretKeylolz
+        LOG_FORMAT: dev
+        LOG_DIR: ../logs/tests
+        ORIGIN: true
+        CREDENTIALS: true
       run: npm test
