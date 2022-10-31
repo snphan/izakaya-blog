@@ -10,7 +10,6 @@ import { isEmpty } from '@utils/util';
 export default class UserRepository {
   public async userFindAll(): Promise<User[]> {
     const users: User[] = await UserEntity.find();
-
     return users;
   }
 
