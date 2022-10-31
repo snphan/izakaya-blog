@@ -12,8 +12,8 @@ import { createConnection } from 'typeorm';
 import { NODE_ENV, PORT, ORIGIN, CREDENTIALS } from '@config';
 import { dbConnection } from '@databases';
 import { authMiddleware, authChecker } from '@middlewares/auth.middleware';
-import errorMiddleware from '@middlewares/error.middleware';
-import { logger, responseLogger, errorLogger } from '@utils/logger';
+// import errorMiddleware from '@middlewares/error.middleware';
+// import { logger, responseLogger, errorLogger } from '@utils/logger';
 import { Server } from 'http';
 
 class App {
@@ -31,17 +31,17 @@ class App {
     this.connectToDatabase();
     this.initializeMiddlewares();
     this.initApolloServer(resolvers);
-    this.initializeErrorHandling();
+    // this.initializeErrorHandling();
   }
 
   public async listen() {
     this.server = this.app.listen(this.port, () => {
       if (this.env !== "test") {
-        logger.info(`=================================`);
-        logger.info(`======= ENV: ${this.env} =======`);
-        logger.info(`🚀 App listening on the port ${this.port}`);
-        logger.info(`🎮 http://localhost:${this.port}/graphql`);
-        logger.info(`=================================`);
+        // logger.info(`=================================`);
+        // logger.info(`======= ENV: ${this.env} =======`);
+        // logger.info(`🚀 App listening on the port ${this.port}`);
+        // logger.info(`🎮 http://localhost:${this.port}/graphql`);
+        // logger.info(`=================================`);
       }
     });
   }
@@ -92,16 +92,16 @@ class App {
           throw new Error(error);
         }
       },
-      formatResponse: (response, request) => {
-        responseLogger(request);
+      // formatResponse: (response, request) => {
+      //   responseLogger(request);
 
-        return response;
-      },
-      formatError: error => {
-        errorLogger(error);
+      //   return response;
+      // },
+      // formatError: error => {
+      //   errorLogger(error);
 
-        return error;
-      },
+      //   return error;
+      // },
 
     });
 
@@ -109,9 +109,9 @@ class App {
     this.apolloServer.applyMiddleware({ app: this.app, cors: ORIGIN, path: '/graphql' });
   }
 
-  private initializeErrorHandling() {
-    this.app.use(errorMiddleware);
-  }
+  // private initializeErrorHandling() {
+  //   this.app.use(errorMiddleware);
+  // }
 }
 
 export default App;
