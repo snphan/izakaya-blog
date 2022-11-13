@@ -18,7 +18,7 @@ services:
       dockerfile: Dockerfile
     container_name: server-izakaya
     ports:
-      - '3001:3000'
+      - '3000:3000'
     volumes:
       - ./api:/app
       - /app/node_modules
@@ -50,7 +50,7 @@ services:
       dockerfile: Dockerfile
     container_name: blog-izakaya
     ports:
-      - '8001:8000'
+      - '8000:8000'
     volumes:
       - ./blog:/app
       - /app/node_modules
